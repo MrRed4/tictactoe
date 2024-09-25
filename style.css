@@ -1,0 +1,38 @@
+html {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+}
+
+#board {
+    outline: 1px solid black;
+    display: grid;
+    height: 200px;
+    width: 200px;
+    margin: 32px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.square {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    background: none;
+    cursor: pointer;
+}
+
+.square:active {
+    background: rgb(225, 225, 225);
+}
+
+.reset, .turn {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+}
+
+.turn {
+    padding-top: 24px;
+}
