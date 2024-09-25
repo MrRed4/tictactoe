@@ -1,1 +1,1 @@
-Tic-Tac-Toe game made following <a href='www.theodinproject.com'>The Odin Project</a>
+Tic-Tac-Toe game made following <a href='https://www.theodinproject.com/'>The Odin Project</a>
