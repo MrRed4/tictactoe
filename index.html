@@ -3,15 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tic-Tac-Toe</title>
     <script defer src="script.js"></script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2 class="turn"></h2>
-    <div id="board">
-
+    <div class="namespace left">
+        <h3>Player 1</h3>
+        <p class="playerone-username">-</p>
+        <input type="text" class="name-input playerone-input" maxlength="14">
     </div>
-    <button class="reset">Reset</button>
+    <div class="main">
+        <h2 class="turn">-</h2>
+        <div id="board">
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+            <button class="square"></button>
+        </div>
+        <button class="reset">Reset Board</button>
+        <button class="start-game">Start Game</button>
+    </div>
+    <div class="namespace right">
+        <h3>Player 2</h3>
+        <p class="playertwo-username">-</p>
+        <input type="text" class="name-input playertwo-input" maxlength="14">
+    </div>
 </body>
 </html>

@@ -46,37 +46,45 @@ function Square() {
     return { addMark, getValue }
 }
 
-const createPlayers = (playerOneName, playerTwoName) => {
-    return [
+const Players = (() => {
+
+    let players = [
         {
-            name: playerOneName,
+            name: 'Player 1',
             mark: 'X',
         },
         {
-            name: playerTwoName,
+            name: 'Player 2',
             mark: 'O',
         }
     ]
-}
+
+    const getPlayers = () => players
+
+    const changePlayerName = (player, newName) => {
+        players[player].name = newName
+    }
+
+    return { getPlayers, changePlayerName }
+})()
 
 const gameController = () => {
 
-    let players = createPlayers('PlayerOne', 'PlayerTwo')
-    let userTurn = players[0]
+    let userTurn = Players.getPlayers()[0]
 
     let winner;
     let gameover = false;
 
     const swapTurn = () => {
-        if (userTurn == players[1]) {
-            userTurn = players[0]
+        if (userTurn == Players.getPlayers()[1]) {
+            userTurn = Players.getPlayers()[0]
         } else {
-            userTurn = players[1]
+            userTurn = Players.getPlayers()[1]
         }
     }
 
     const reset = () => {
-        userTurn = players[0]
+        userTurn = Players.getPlayers()[0]
         gameover = false;
     }
 
@@ -115,16 +123,22 @@ const gameController = () => {
 }
 
 const domController = () => {
+
     const domBoard = document.querySelector('#board')
     const turnMessage = document.querySelector('.turn')
+    const startButton = document.querySelector('.start-game')
+    const playerOneInput = document.querySelector('.playerone-input')
+    const playerTwoInput = document.querySelector('.playertwo-input')
+    const playerOneUsernameField = document.querySelector('.playerone-username')
+    const playerTwoUsernameField = document.querySelector('.playertwo-username')
     
     const game = gameController()
 
-    const render = () => {
+    const renderBoard = () => {
         if (!game.checkGameState()) {
             turnMessage.textContent = `It is ${game.currentTurn().name}'s turn (${game.currentTurn().mark})`
         } else {
-            turnMessage.textContent = `${game.checkWinner().name} is the winner!!!`
+            turnMessage.textContent = `${game.checkWinner().name} is the winner!`
         }
 
         const currentBoard = Gameboard.getBoard()
@@ -138,19 +152,38 @@ const domController = () => {
                 domBoard.appendChild(btn).textContent = square.getValue()
         })
     }
-    // Initial render
-    render()
+
+    function startGame () {
+        playerOneUsernameField.textContent = playerOneInput.value
+        playerTwoUsernameField.textContent = playerTwoInput.value
+
+        if (playerOneInput.value) {
+            Players.changePlayerName(0, playerOneInput.value)
+        }
+
+        if (playerTwoInput.value) {
+            Players.changePlayerName(1, playerTwoInput.value)
+        }
+
+        playerOneInput.remove()
+        playerTwoInput.remove()
+        startButton.remove()
+
+        renderBoard()
+    }
 
     function reset() {
         Gameboard.newBoard()
         game.reset()
-        render()
+        renderBoard()
     }
+
     document.querySelector('.reset').onclick = reset
+    document.querySelector('.start-game').onclick = startGame
 
     function selectMove(event) {
         game.playTurn(event.target.classList[1])
-        render()
+        renderBoard()
     }
 }
 
