@@ -92,6 +92,7 @@ const gameController = () => {
 
     const playTurn = (pos) => {
         const currentBoard = Gameboard.getBoard()
+        let freeSquares = 9
 
         // Checks if position already has been marked or if the game is over
         if (currentBoard[pos].getValue() == 'X' || currentBoard[pos].getValue() == 'O' || gameover) {
@@ -99,6 +100,18 @@ const gameController = () => {
         } else {
             Gameboard.mark(pos, currentTurn())
         }
+
+        // Checks for draw
+        currentBoard.forEach(square => {
+            if (square.getValue() == 'X' || square.getValue() == 'O') {
+                freeSquares--
+            }
+            if (freeSquares == 0) {
+                winner = false;
+                gameover = true;
+                return
+            }
+        })
 
         // Checks for winner
         Gameboard.winningCombos().forEach((combo) => {
@@ -112,7 +125,6 @@ const gameController = () => {
                 }
             }
         })
-
         swapTurn()
     }
 
@@ -137,6 +149,8 @@ const domController = () => {
     const renderBoard = () => {
         if (!game.checkGameState()) {
             turnMessage.textContent = `It is ${game.currentTurn().name}'s turn (${game.currentTurn().mark})`
+        } else if (game.checkGameState() && !game.checkWinner()) {
+            turnMessage.textContent = `It's a draw!`
         } else {
             turnMessage.textContent = `${game.checkWinner().name} is the winner!`
         }
